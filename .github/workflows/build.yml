@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 17
         distribution: 'zulu' # Alternative distribution options are available.
-    - name: Cache SonarQube packages
+    - name: Cache SonarCloud packages
       uses: actions/cache@v4
       with:
         path: ~/.sonar/cache
@@ -33,6 +33,6 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Build and analyze
       env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests -Dsonar.projectKey=ShakthiYasas_train-ticket_743a1696-5270-488a-9965-512d1c547bbc -Dsonar.projectName='train-ticket'
+      run: mvn -B verify -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ShakthiYasas_train-ticket_743a1696-5270-488a-9965-512d1c547bbc -Dsonar.projectName='train-ticket'
